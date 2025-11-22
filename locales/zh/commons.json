@@ -243,7 +243,10 @@
         "name-placeholder": "例如：教室 Gemini",
         "confirm": "添加",
         "cancel": "取消",
-        "success": "已添加 {{name}}。"
+        "success": "已添加 {{name}}。",
+        "key": "API 密钥",
+        "key-placeholder": "abcdef",
+        "address": "API 地址 (可选)"
       },
       "make-active": "设为当前配置",
       "remove": {

@@ -243,7 +243,10 @@
         "name-placeholder": "e.g. Classroom Gemini",
         "confirm": "Add source",
         "cancel": "Cancel",
-        "success": "Added {{name}}."
+        "success": "Added {{name}}.",
+        "key": "API Key",
+        "key-placeholder": "abcdef",
+        "address": "API Base Url (Optional)"
       },
       "make-active": "Set active",
       "remove": {
