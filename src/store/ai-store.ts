@@ -119,10 +119,7 @@ function createClientForSource(source: AiSource): AiClient | null {
   }
 
   if (source.provider === "openai") {
-    return new OpenAiClient(source.apiKey, source.baseUrl, {
-      pollIntervalMs: source.pollIntervalMs,
-      maxPollMs: source.maxPollMs,
-    });
+    return new OpenAiClient(source.apiKey, source.baseUrl);
   }
 
   return null;
