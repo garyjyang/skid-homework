@@ -12,7 +12,6 @@ import {
   type LanguagePreference,
   type ThemePreference,
   type ShortcutAction,
-  SHOULD_SHOW_QWEN_HINT_DEFAULT,
 } from "@/store/settings-store";
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";

@@ -116,9 +116,9 @@ export const useSettingsStore = create<SettingsState>()(
       }),
       version: 5,
       migrate: (persistedState, version) => {
-        const data =
+        const data: Partial<SettingsState> & Record<string, unknown> =
           persistedState && typeof persistedState === "object"
-            ? { ...persistedState }
+            ? { ...(persistedState as Record<string, unknown>) }
             : {};
 
         if (version < 3) {
