@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { encodeSeedChat } from "@/lib/chat-seed";
 import { useSettingsStore } from "@/store/settings-store";
 import InspectDialog from "./dialogs/InspectDialog";
+import Explanation from "./Explanation";
 
 export type SolutionViewerProps = {
   entry: OrderedSolution;
@@ -46,7 +47,7 @@ export default function SolutionViewer({
   updateSolution,
   ...props
 }: SolutionViewerProps) {
-  const { devtoolsEnabled } = useSettingsStore((s) => s);
+  const { devtoolsEnabled, explanationMode } = useSettingsStore((s) => s);
   const [inspectDialogOpen, setInspectDialogOpen] = useState(false);
 
   const selectedProblem = useProblemsStore((s) => s.selectedProblem);
@@ -242,14 +243,11 @@ export default function SolutionViewer({
               </div>
             </div>
 
-            <div>
-              <div className="mb-1 text-sm font-medium text-slate-300">
-                {t("explanation")}
-              </div>
-              <div className="rounded-lg bg-slate-900/40 p-3 text-sm leading-relaxed">
-                <MemoizedMarkdown source={activeProblem?.explanation ?? ""} />
-              </div>
-            </div>
+            <Explanation
+              mode={explanationMode}
+              content={activeProblem?.explanation ?? "<Empty Explanation>"}
+              steps={activeProblem?.steps}
+            />
 
             <div className="flex flex-wrap gap-2">
               <ImproveSolutionDialog

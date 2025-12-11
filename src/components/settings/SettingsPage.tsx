@@ -1,38 +1,38 @@
 "use client";
 
+import { useQwenHintAutoToggle } from "@/hooks/useQwenHintAutoToggle";
+import { cn } from "@/lib/utils";
 import {
   DEFAULT_GEMINI_BASE_URL,
   DEFAULT_OPENAI_BASE_URL,
+  useAiStore,
   type AiModelSummary,
   type AiProvider,
-  useAiStore,
 } from "@/store/ai-store";
 import {
   useSettingsStore,
   type LanguagePreference,
-  type ThemePreference,
   type ShortcutAction,
+  type ThemePreference,
 } from "@/store/settings-store";
-import { cn } from "@/lib/utils";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Check, ChevronsUpDown } from "lucide-react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import ShortcutRecorder from "../ShortcutRecorder";
+import { useTheme } from "../theme-provider";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../ui/card";
-import { Label } from "../../ui/label";
-import { Input } from "../../ui/input";
-import { Button } from "../../ui/button";
-import { Textarea } from "../../ui/textarea";
-import { Kbd } from "../../ui/kbd";
-import { Checkbox } from "../../ui/checkbox";
-import { Slider } from "../../ui/slider";
-import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
+} from "../ui/card";
+import { Checkbox } from "../ui/checkbox";
 import {
   Command,
   CommandEmpty,
@@ -40,15 +40,16 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../../ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { toast } from "sonner";
-import { useTheme } from "../../theme-provider";
-import ShortcutRecorder from "../../ShortcutRecorder";
-import { useQwenHintAutoToggle } from "@/hooks/useQwenHintAutoToggle";
-import Link from "next/link";
-import AISourceManager from "./AISourceManager";
+} from "../ui/command";
+import { Input } from "../ui/input";
+import { Kbd } from "../ui/kbd";
+import { Label } from "../ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Slider } from "../ui/slider";
+import { Textarea } from "../ui/textarea";
 import AIAPICredentialsManager from "./AIAPICredentialsManager";
+import AISourceManager from "./AISourceManager";
+import ExplanationModeSelector from "./ExplanationModeSelector";
 
 export const DEFAULT_BASE_BY_PROVIDER: Record<AiProvider, string> = {
   gemini: DEFAULT_GEMINI_BASE_URL,
@@ -586,6 +587,12 @@ export default function SettingsPage() {
                 onCheckedChange={(state) => setDevtoolsState(Boolean(state))}
               />
               <Label htmlFor="devtools-enabled">Enable Devtools</Label>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Label>Explanation Mode: </Label>
+
+              <ExplanationModeSelector />
             </div>
           </CardContent>
         </Card>

@@ -14,6 +14,8 @@ export type ShortcutAction =
 
 export type ShortcutMap = Record<ShortcutAction, string>;
 
+export type ExplanationMode = "explanation" | "steps";
+
 const DEFAULT_SHORTCUTS: ShortcutMap = {
   upload: "ctrl+1",
   camera: "ctrl+2",
@@ -53,6 +55,9 @@ export interface SettingsState {
   traits: string;
   setTraits: (traits: string) => void;
 
+  explanationMode: ExplanationMode;
+  setExplanationMode: (explanationMode: ExplanationMode) => void;
+
   devtoolsEnabled: boolean;
   setDevtoolsState: (state: boolean) => void;
 }
@@ -67,6 +72,7 @@ export const useSettingsStore = create<SettingsState>()(
       languageInitialized: false,
       keybindings: { ...DEFAULT_SHORTCUTS },
       traits: "",
+      explanationMode: "explanation",
       devtoolsEnabled: false,
 
       setImageBinarizing: (state) => set({ imageBinarizing: state }),
@@ -99,6 +105,7 @@ export const useSettingsStore = create<SettingsState>()(
         })),
       resetKeybindings: () => set({ keybindings: { ...DEFAULT_SHORTCUTS } }),
       setTraits: (traits) => set({ traits }),
+      setExplanationMode: (explanationMode) => set({ explanationMode }),
       setDevtoolsState: (state) => set({ devtoolsEnabled: state }),
     }),
     {
@@ -112,6 +119,7 @@ export const useSettingsStore = create<SettingsState>()(
         languageInitialized: state.languageInitialized,
         keybindings: state.keybindings,
         traits: state.traits,
+        explanationMode: state.explanationMode,
         devtools: state.devtoolsEnabled,
       }),
       version: 5,

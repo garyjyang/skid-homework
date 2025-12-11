@@ -1,4 +1,4 @@
-import SettingsPage from "@/components/pages/settings/SettingsPage";
+import SettingsPage from "@/components/settings/SettingsPage";
 import { Suspense } from "react";
 
 export default async function SettingsRoute() {
