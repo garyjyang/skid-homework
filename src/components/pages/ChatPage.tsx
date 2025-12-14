@@ -771,10 +771,8 @@ export default function ChatPage() {
                         )}
                       >
                         <div className="prose prose-sm dark:prose-invert max-w-none wrap-break-word leading-normal">
-                          <MemoizedMarkdown
-                            source={msg.content || "..."}
-                            wrapText
-                          />
+                          <MemoizedMarkdown source={msg.content || "..."} />
+                          {/* TODO: wrap text */}
                         </div>
                       </div>
                     </motion.div>

@@ -247,6 +247,7 @@ export default function SolutionViewer({
               mode={explanationMode}
               content={activeProblem?.explanation ?? "<Empty Explanation>"}
               steps={activeProblem?.steps}
+              key={entry.item.id}
             />
 
             <div className="flex flex-wrap gap-2">
