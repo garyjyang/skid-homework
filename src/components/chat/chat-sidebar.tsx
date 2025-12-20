@@ -23,6 +23,8 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { ChatThreadRecord } from "@/store/chat-db";
+import { useRef } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 interface ChatSidebarProps {
   threads: ChatThreadRecord[];
@@ -52,6 +54,15 @@ export function ChatSidebar({
   onCloseMobile,
 }: ChatSidebarProps) {
   const { t } = useTranslation("commons", { keyPrefix: "chat-page" });
+  const searchBoxRef = useRef<HTMLInputElement>(null);
+
+  useHotkeys(
+    "/",
+    () => {
+      searchBoxRef.current?.focus();
+    },
+    { preventDefault: true, useKey: true },
+  );
 
   return (
     <div className="flex h-full flex-col gap-4">
@@ -70,11 +81,15 @@ export function ChatSidebar({
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
+            ref={searchBoxRef}
             placeholder={t("actions.search")}
             className="pl-8 h-9"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
           />
+          <Kbd className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground">
+            /
+          </Kbd>
         </div>
       </div>
 
