@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -20,9 +21,9 @@ export default function DiagramRenderer({
   return (
     <div className="mermaid-container">
       <div style={{ padding: "8px", textAlign: "right" }}>
-        <button onClick={toggleView}>
+        <Button variant="ghost" onClick={toggleView}>
           {isCodeView ? t("view-diagram") : t("view-code")}
-        </button>
+        </Button>
       </div>
       {isCodeView ? (
         <pre>
