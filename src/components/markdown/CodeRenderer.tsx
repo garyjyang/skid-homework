@@ -1,4 +1,4 @@
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsUp } from "lucide-react";
 import {
   CodeBlock,
   CodeBlockBody,
@@ -9,11 +9,6 @@ import {
   CodeBlockFilename,
   CodeBlockFiles,
   CodeBlockHeader,
-  CodeBlockSelect,
-  CodeBlockSelectContent,
-  CodeBlockSelectItem,
-  CodeBlockSelectTrigger,
-  CodeBlockSelectValue,
 } from "../ui/shadcn-io/code-block";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -45,18 +40,8 @@ export default function CodeRenderer({ language, content }: CodeRendererProps) {
             </CodeBlockFilename>
           )}
         </CodeBlockFiles>
-        <CodeBlockSelect>
-          <CodeBlockSelectTrigger>
-            <CodeBlockSelectValue />
-          </CodeBlockSelectTrigger>
-          <CodeBlockSelectContent>
-            {(item) => (
-              <CodeBlockSelectItem key={item.language} value={item.language}>
-                {item.language}
-              </CodeBlockSelectItem>
-            )}
-          </CodeBlockSelectContent>
-        </CodeBlockSelect>
+        {language}
+
         <button
           className={cn(
             "rounded-full hover:bg-background p-1 mx-1",
@@ -64,9 +49,12 @@ export default function CodeRenderer({ language, content }: CodeRendererProps) {
           )}
           onClick={() => setCollapsed(!collapsed)}
         >
-          <div>
-            <ChevronsUpDown className="size-4 text-muted-foreground" />
-          </div>
+          <ChevronsUp
+            className={cn(
+              "size-4 text-muted-foreground transition-transform",
+              collapsed ? "rotate-180" : "rotate-0",
+            )}
+          />
         </button>
         <CodeBlockCopyButton
           onCopy={() => console.log("Copied code to clipboard")}
