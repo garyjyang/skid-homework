@@ -2,7 +2,7 @@
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import { Info, StarIcon } from "lucide-react";
-import { useEffect, useMemo, useCallback, useRef, useState } from "react";
+import { useEffect, useMemo, useCallback, useState } from "react";
 import { useAiStore } from "@/store/ai-store";
 import ActionsCard from "../cards/ActionsCard";
 import PreviewCard from "../cards/PreviewCard";
@@ -46,10 +46,7 @@ export default function ScanPage() {
     clearStreamedOutput,
   } = useProblemsStore((s) => s);
 
-  const { imageEnhancement: imageBinarizing, traits } = useSettingsStore(
-    (s) => s,
-  );
-  const imageBinarizingRef = useRef(imageBinarizing);
+  const { imageEnhancement, traits } = useSettingsStore((s) => s);
 
   // Zustand store for AI provider configuration.
   const sources = useAiStore((state) => state.sources);
@@ -149,7 +146,7 @@ export default function ScanPage() {
         url: URL.createObjectURL(file),
         source,
         status:
-          file.type.startsWith("image/") && imageBinarizingRef.current
+          file.type.startsWith("image/") && imageEnhancement
             ? "processing"
             : "pending",
       }));
@@ -157,7 +154,7 @@ export default function ScanPage() {
       addFileItems(initialItems);
 
       // Image post-processing
-      if (imageBinarizingRef.current) {
+      if (imageEnhancement) {
         initialItems.forEach((item) => {
           if (item.status === "processing") {
             console.log(`Processing image ${item.file.name}`);
@@ -180,7 +177,7 @@ export default function ScanPage() {
         });
       }
     },
-    [addFileItems, updateFileItem, allowPdfUploads, t],
+    [addFileItems, imageEnhancement, allowPdfUploads, t, updateFileItem],
   );
 
   // Function to remove a specific item from the list by its ID.
@@ -420,7 +417,7 @@ ${traits}
 
   return (
     <>
-      {imageBinarizing && <OpenCVLoader />}
+      {imageEnhancement && <OpenCVLoader />}
 
       <div className={cn("min-h-screen", isMobile && "pb-24")}>
         <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
