@@ -36,9 +36,8 @@ export const processImage = async (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let bg: any = null;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let kernelSmall: any = null;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let kernelBig: any = null;
+        // Note: kernelSmall is removed as it destroys digital text details
 
         try {
           src = cv.imread(img);
@@ -48,44 +47,39 @@ export const processImage = async (
           // 1. Convert to Grayscale
           cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY);
 
-          // 2. Tiny Denoise (High Frequency Removal)
-          // Remove small specks/noise (salt-and-pepper noise)
-          kernelSmall = cv.getStructuringElement(
-            cv.MORPH_RECT,
-            new cv.Size(3, 3),
-          );
-          // Close: fills small black holes
-          cv.morphologyEx(src, src, cv.MORPH_CLOSE, kernelSmall);
-          // Open: removes small white noise
-          cv.morphologyEx(src, src, cv.MORPH_OPEN, kernelSmall);
-
-          // 3. Shadow Removal / Illumination Correction (Low Frequency Processing)
-          // We estimate the background (low freq) using a large kernel.
-          // A size of 40-50 is usually good for A4 documents to ignore text but capture shadows.
+          // 2. Shadow Removal / Illumination Correction
+          // Even for electronic docs, this helps normalize off-white backgrounds to pure white.
           kernelBig = cv.getStructuringElement(
             cv.MORPH_RECT,
             new cv.Size(50, 50),
           );
 
-          // Calculate the background (shading)
+          // Estimate background
           cv.morphologyEx(src, bg, cv.MORPH_CLOSE, kernelBig);
 
           // Divide source by background to flatten illumination
-          // Formula: dst = (src / bg) * 255
+          // dst = (src / bg) * 255
           cv.divide(src, bg, dst, 255, -1);
 
           // 4. Binarization (Thresholding)
-          // Now that shadows are gone, we can safely binarize.
-          // Using adaptive threshold to handle any remaining local variations.
-          cv.adaptiveThreshold(
-            dst, // Input is the shadow-removed image
-            dst, // Output
-            255,
-            cv.ADAPTIVE_THRESH_GAUSSIAN_C,
-            cv.THRESH_BINARY,
-            15, // Block size (smaller is finer, since shadows are already gone)
-            10, // Constant C (contrast tuning)
-          );
+          // For electronic documents (uniform lighting), Otsu's method works best.
+          // It automatically finds the best separation between text and background.
+
+          // Use THRESH_OTSU + THRESH_BINARY.
+          // Note: When using OTSU, the explicit threshold value (0) is ignored.
+          cv.threshold(dst, dst, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
+
+          // OPTIONAL: If you still need Adaptive Threshold (e.g., for mixed camera scans),
+          // increase the Block Size (15 -> 31 or 41) to prevent letters from becoming hollow.
+          /*
+      cv.adaptiveThreshold(
+        dst, dst, 255,
+        cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+        cv.THRESH_BINARY,
+        31, // Increased block size for better text preservation
+        15  // Increased constant
+      );
+      */
 
           const outputCanvas = document.createElement("canvas");
           cv.imshow(outputCanvas, dst);
@@ -112,12 +106,12 @@ export const processImage = async (
         } catch (err) {
           reject(err);
         } finally {
-          // Clean up memory (Very Important in OpenCV.js)
+          // Clean up memory
           if (src) src.delete();
           if (dst) dst.delete();
           if (bg) bg.delete();
-          if (kernelSmall) kernelSmall.delete();
           if (kernelBig) kernelBig.delete();
+          // kernelSmall was removed
           URL.revokeObjectURL(originalUrl);
         }
       };
