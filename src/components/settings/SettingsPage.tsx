@@ -232,37 +232,37 @@ export default function SettingsPage() {
       },
       !isMobileLayout && {
         action: "adbScreenshot" as ShortcutAction,
-        label: translateSettings("shortcuts.actions.adbScreenshot.label"),
+        label: translateSettings("shortcuts.actions.adb-screenshot.label"),
         description: translateSettings(
           "shortcuts.actions.adbScreenshot.description",
         ),
       },
       {
         action: "startScan" as ShortcutAction,
-        label: translateSettings("shortcuts.actions.startScan.label"),
+        label: translateSettings("shortcuts.actions.start-scan.label"),
         description: translateSettings(
-          "shortcuts.actions.startScan.description",
+          "shortcuts.actions.start-scan.description",
         ),
       },
       {
         action: "clearAll" as ShortcutAction,
-        label: translateSettings("shortcuts.actions.clearAll.label"),
+        label: translateSettings("shortcuts.actions.clear-all.label"),
         description: translateSettings(
-          "shortcuts.actions.clearAll.description",
+          "shortcuts.actions.clear-all.description",
         ),
       },
       {
         action: "openSettings" as ShortcutAction,
-        label: translateSettings("shortcuts.actions.openSettings.label"),
+        label: translateSettings("shortcuts.actions.open-settings.label"),
         description: translateSettings(
-          "shortcuts.actions.openSettings.description",
+          "shortcuts.actions.open-settings.description",
         ),
       },
       {
         action: "openChat" as ShortcutAction,
-        label: translateSettings("shortcuts.actions.openChat.label"),
+        label: translateSettings("shortcuts.actions.open-chat.label"),
         description: translateSettings(
-          "shortcuts.actions.openChat.description",
+          "shortcuts.actions.open-chat.description",
         ),
       },
       {

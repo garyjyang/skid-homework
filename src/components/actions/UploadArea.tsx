@@ -263,7 +263,7 @@ export default function UploadArea({ appendFiles, allowPdf }: UploadAreaProps) {
             size="default"
             disabled={isWorking || adbBusy}
             onClick={handleAdbBtnClicked}
-            title={t("adb-screenshot-hint")}
+            title={t("adb.screenshot-hint")}
           >
             <span className="flex items-center gap-1.5 min-w-0">
               <Image
@@ -276,11 +276,11 @@ export default function UploadArea({ appendFiles, allowPdf }: UploadAreaProps) {
               <span className="truncate">
                 {adbBusy
                   ? adbBusyMode === "capture"
-                    ? t("adb-screenshot-busy")
-                    : t("adb-connecting")
+                    ? t("adb.screenshot-busy")
+                    : t("adb.connecting")
                   : adbConnected
-                    ? t("adb-screenshot")
-                    : t("adb-connect")}
+                    ? t("adb.screenshot")
+                    : t("adb.connect")}
               </span>
             </span>
             <ShortcutHint shortcut={adbScreenshotShortcut} />
@@ -300,7 +300,7 @@ export default function UploadArea({ appendFiles, allowPdf }: UploadAreaProps) {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="min-w-[10rem]">
                 <DropdownMenuItem onClick={handleAdbReconnect}>
-                  {t("adb-reconnect")}
+                  {t("adb.reconnect")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

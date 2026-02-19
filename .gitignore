@@ -39,3 +39,6 @@ devenv.local.yaml
 .direnv
 
 *.patch
+
+# local qodana checks
+qodana.yaml

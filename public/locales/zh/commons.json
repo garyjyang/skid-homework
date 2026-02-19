@@ -228,12 +228,14 @@
       "close": "知道了"
     },
     "pdf-disabled": "仅在启用 Gemini 源时支持 PDF 上传。",
-    "adb-connect": "ADB 连接",
-    "adb-reconnect": "重新连接 ADB",
-    "adb-screenshot": "ADB 截图",
-    "adb-connecting": "连接中...",
-    "adb-screenshot-busy": "采集中...",
-    "adb-screenshot-hint": "通过 ADB（WebUSB）从已连接的安卓设备捕获屏幕截图"
+    "adb": {
+      "connect": "ADB 连接",
+      "reconnect": "重新连接 ADB",
+      "screenshot": "ADB 截图",
+      "connecting": "连接中...",
+      "screenshot-busy": "采集中...",
+      "screenshot-hint": "通过 ADB（WebUSB）从已连接的安卓设备捕获屏幕截图"
+    }
   },
   "uploads-info": {
     "selected": "已选择"
@@ -349,23 +351,23 @@
           "label": "拍照",
           "description": "调用设备相机拍摄作业。"
         },
-        "adbScreenshot": {
+        "adb-screenshot": {
           "label": "ADB 截图",
           "description": "通过 ADB 直接截取已连接安卓设备的屏幕。"
         },
-        "startScan": {
+        "start-scan": {
           "label": "开始识别",
           "description": "将所有待处理的文件发送给 AI 源。"
         },
-        "clearAll": {
+        "clear-all": {
           "label": "清空全部",
           "description": "移除所有已上传的文件与结果。"
         },
-        "openSettings": {
+        "open-settings": {
           "label": "打开设置",
           "description": "从任意页面快速进入设置。"
         },
-        "openChat": {
+        "open-chat": {
           "label": "打开聊天",
           "description": "随时切换到聊天工作区。"
         },

@@ -232,12 +232,14 @@
       "close": "Got it"
     },
     "pdf-disabled": "PDF uploads are available only when a Gemini source is enabled.",
-    "adb-connect": "ADB Connect",
-    "adb-reconnect": "Reconnect ADB",
-    "adb-screenshot": "ADB Screenshot",
-    "adb-connecting": "Connecting...",
-    "adb-screenshot-busy": "Capturing...",
-    "adb-screenshot-hint": "Capture a screenshot from a connected Android device via ADB (WebUSB)"
+    "adb": {
+      "connect": "ADB Connect",
+      "reconnect": "Reconnect ADB",
+      "screenshot": "ADB Screenshot",
+      "connecting": "Connecting...",
+      "screenshot-busy": "Capturing...",
+      "screenshot-hint": "Capture a screenshot from a connected Android device via ADB (WebUSB)"
+    }
   },
   "uploads-info": {
     "selected": "Selected"
@@ -353,23 +355,23 @@
           "label": "Take photo",
           "description": "Launches the device camera to capture homework."
         },
-        "adbScreenshot": {
+        "adb-screenshot": {
           "label": "ADB screenshot",
           "description": "Capture the connected Android device's screen via ADB."
         },
-        "startScan": {
+        "start-scan": {
           "label": "Start scan",
           "description": "Sends all pending items to your AI sources."
         },
-        "clearAll": {
+        "clear-all": {
           "label": "Clear all",
           "description": "Removes every uploaded item and solution."
         },
-        "openSettings": {
+        "open-settings": {
           "label": "Open settings",
           "description": "Opens this settings page from anywhere in the app."
         },
-        "openChat": {
+        "open-chat": {
           "label": "Open chat",
           "description": "Jump straight to the chat workspace."
         },
