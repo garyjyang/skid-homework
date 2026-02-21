@@ -5,8 +5,8 @@ import {
 } from "../ui/collapsible";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { useCallback, useMemo, type KeyboardEvent } from "react";
-import { useProblemsStore } from "@/store/problems-store";
+import { useCallback, useMemo, useState, useEffect, type KeyboardEvent } from "react";
+import { useProblemsStore, type FileItem } from "@/store/problems-store";
 import { useAiStore } from "@/store/ai-store";
 import ProblemList from "./ProblemList";
 import SolutionViewer from "./SolutionViewer";
@@ -18,12 +18,84 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useDrag } from "@use-gesture/react";
 import { animated, to, useSpring } from "@react-spring/web";
 import { OrderedSolution } from "@/hooks/use-solution-export";
+import { Maximize2 } from "lucide-react";
+import { readTextFile } from "@/utils/file-utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 
 export type ActiveSolutionContentProps = {
   ref?: React.Ref<HTMLDivElement>;
   entry: OrderedSolution;
   isActive: boolean;
   onNavigateImage: (direction: "next" | "prev") => void;
+};
+
+const TextSolutionPreview = ({
+  item,
+  t,
+  tCommon,
+}: {
+  item: FileItem;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  tCommon: any;
+}) => {
+  const [content, setContent] = useState<string>("");
+
+  useEffect(() => {
+    readTextFile(item.url).then(setContent);
+  }, [item.url]);
+
+  return (
+    <Collapsible defaultOpen>
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-xs text-slate-400">
+          {t("photo-label", {
+            index: item.displayName,
+            source: tCommon(`sources.${item.source}`),
+          })}
+        </div>
+        <div className="flex gap-2">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-7 w-7">
+                <Maximize2 className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="flex h-[80vh] max-w-4xl flex-col">
+              <DialogHeader>
+                <DialogTitle>
+                  {t("photo-label", {
+                    index: item.displayName,
+                    source: tCommon(`sources.${item.source}`),
+                  })}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="flex-1 overflow-auto rounded-md bg-slate-950 p-4 font-mono text-sm text-slate-300 whitespace-pre-wrap">
+                {content}
+              </div>
+            </DialogContent>
+          </Dialog>
+          <CollapsibleTrigger asChild>
+            <Button variant="outline" size="sm" className="h-7 px-2">
+              {t("toggle-preview")}
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+      </div>
+      <CollapsibleContent>
+        <div className="max-h-96 overflow-hidden overflow-y-auto rounded-xl border border-slate-700 bg-slate-950 p-4 text-xs font-mono text-slate-300 whitespace-pre-wrap break-all">
+          {content}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
 };
 
 export default function ActiveSolutionContent({
@@ -33,6 +105,7 @@ export default function ActiveSolutionContent({
   onNavigateImage,
 }: ActiveSolutionContentProps) {
   const { t } = useTranslation("commons", { keyPrefix: "solutions" });
+  const { t: tCommon } = useTranslation("commons");
   const prefersTouch = useMediaQuery("(pointer: coarse)");
 
   const { selectedProblem, setSelectedProblem, updateProblem } =
@@ -160,7 +233,7 @@ export default function ActiveSolutionContent({
       style={dragStyle}
     >
       {/* Image Preview */}
-      {entry.item.mimeType.startsWith("image/") && (
+      {entry.item.mimeType.startsWith("image/") ? (
         <Collapsible defaultOpen>
           <div className="flex items-center justify-between mb-2">
             <div className="text-xs text-slate-400">
@@ -190,7 +263,10 @@ export default function ActiveSolutionContent({
             </div>
           </CollapsibleContent>
         </Collapsible>
-      )}
+      ) : entry.item.mimeType.startsWith("text/") ||
+        entry.item.file.name.match(/\.(md|json|txt)$/i) ? (
+        <TextSolutionPreview item={entry.item} t={t} tCommon={tCommon} />
+      ) : null}
 
       {/* Streaming Output */}
       {(entry.solutions.status !== "success" ||

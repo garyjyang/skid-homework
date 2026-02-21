@@ -28,7 +28,7 @@
     "supported-types": "支持图片、文本、Markdown、JSON 等格式",
     "no-files": "没有文件 上传或拍照以开始",
     "title": "预览",
-    "tip": "提示：双击以在解决方案区域聚焦图像，单击图片预览大图",
+    "tip": "提示：双击以在解决方案区域聚焦文件，单击文件全屏预览",
     "image-alt": "作业预览",
     "file-type": {
       "pdf": "PDF",
@@ -36,8 +36,8 @@
     },
     "drop-cancel": "拖到这里取消",
     "remove": {
-      "menu-item": "移除图片",
-      "aria": "移除图片"
+      "menu-item": "移除文件",
+      "aria": "移除文件"
     },
     "rename": {
       "menu-item": "重命名",
@@ -57,7 +57,7 @@
     "mobile": {
       "status": "已有 {{count}} 个文件",
       "status_plural": "已有 {{count}} 个文件",
-      "empty": "先添加照片或 PDF 开始使用。",
+      "empty": "先添加文件或 PDF 开始使用。",
       "hint-ready": "可以开始识别了，准备好后点击「开始打滑」。",
       "hint-pdf": "启用 Gemini 源即可支持 PDF 上传。",
       "tabs": {
@@ -80,7 +80,7 @@
       },
       "all-processed": {
         "title": "全部已处理",
-        "description": "没有待处理或失败的图片了。"
+        "description": "没有待处理或失败的文件了。"
       },
       "working": {
         "title": "正在处理...",
@@ -168,18 +168,18 @@
     }
   },
   "solutions": {
-    "analyzing": "正在分析... 正在从你的图片中提取问题和解决方案",
-    "idle": "点击\"开始打滑\"将图片发送给AI以在这里查看结果",
+    "analyzing": "正在分析... 正在从你的文件中提取问题和解决方案",
+    "idle": "点击\"开始打滑\"将文件发送给AI以在这里查看结果",
     "title": "解决方案",
     "gesture-hint": "左右滑动切换题目。",
     "status": {
-      "success": "这张图片没有检测到题目。",
+      "success": "该文件没有检测到题目。",
       "stream": "正在推理...",
       "pending": "正在处理中...",
       "failed": "处理失败，请重试。",
       "success-with-provider": "由 {{provider}} 处理成功。"
     },
-    "focus-region-aria": "解决方案键盘聚焦区域（Tab/Shift+Tab 切换题目，空格/Shift+空格切换图片）",
+    "focus-region-aria": "解决方案键盘聚焦区域（Tab/Shift+Tab 切换题目，空格/Shift+空格切换文件）",
     "tabs": {
       "fallback": "文件 {{index}}"
     },
@@ -220,7 +220,7 @@
   "upload-area": {
     "take-photo": "拍照",
     "upload": "上传文件",
-    "upload-tip": "支持图片；PDF 需要启用 Gemini 源。",
+    "upload-tip": "支持图片和文本；PDF 需要启用 Gemini 源。",
     "text-input": {
       "button": "文本输入",
       "title": "输入题目文本",
@@ -363,7 +363,7 @@
       "actions": {
         "upload": {
           "label": "上传文件",
-          "description": "打开文件选择器，挑选图片或 PDF。"
+          "description": "打开文件选择器，挑选文件或 PDF。"
         },
         "camera": {
           "label": "拍照",

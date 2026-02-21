@@ -8,11 +8,12 @@ import {
   CardTitle,
 } from "../ui/card";
 import type { FileItem } from "@/store/problems-store";
-import { useCallback, useState, type ClipboardEvent } from "react";
+import { useCallback, useState, useRef, type ClipboardEvent } from "react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import EmptyPreviewList from "./EmptyPreviewList";
 import PreviewList from "./PreviewList";
+import { generateTextFilename } from "@/utils/file-utils";
 
 export type PreviewCardProps = {
   items: FileItem[];
@@ -30,15 +31,50 @@ export default function PreviewCard({
   const { t } = useTranslation("commons", { keyPrefix: "preview" });
 
   const [isDragging, setIsDragging] = useState(false);
+  const dragCounter = useRef(0);
   const isMobileLayout = layout === "mobile";
+
+  const onDragEnter = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      if (isMobileLayout) return;
+      dragCounter.current++;
+      if (dragCounter.current === 1) {
+        setIsDragging(true);
+      }
+    },
+    [isMobileLayout],
+  );
+
+  const onDragLeave = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      if (isMobileLayout) return;
+      dragCounter.current--;
+      if (dragCounter.current === 0) {
+        setIsDragging(false);
+      }
+    },
+    [isMobileLayout],
+  );
 
   const onDrop = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault();
       if (isMobileLayout) return;
+      dragCounter.current = 0;
       setIsDragging(false);
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         appendFiles(e.dataTransfer.files, "upload");
+      } else {
+        const text = e.dataTransfer.getData("text/plain");
+        if (text) {
+          const filename = generateTextFilename(text);
+          const file = new File([text], filename, {
+            type: "text/plain",
+          });
+          appendFiles([file], "upload");
+        }
       }
     },
     [appendFiles, isMobileLayout],
@@ -47,7 +83,18 @@ export default function PreviewCard({
   const handlePaste = (e: ClipboardEvent) => {
     e.preventDefault();
     if (!e.clipboardData) return;
-    appendFiles(e.clipboardData.files, "upload");
+    if (e.clipboardData.files.length > 0) {
+      appendFiles(e.clipboardData.files, "upload");
+    } else {
+      const text = e.clipboardData.getData("text");
+      if (text) {
+        const filename = generateTextFilename(text);
+        const file = new File([text], filename, {
+          type: "text/plain",
+        });
+        appendFiles([file], "upload");
+      }
+    }
   };
 
   return (
@@ -59,7 +106,7 @@ export default function PreviewCard({
         suppressContentEditableWarning
         // onKeyDown={preventTyping}
         className={cn(
-          "md:col-span-2 border-white/10 backdrop-blur outline-none caret-transparent cursor-default",
+          "md:col-span-2 border-white/10 backdrop-blur outline-none caret-transparent cursor-default flex flex-col",
           isMobileLayout &&
             "border border-white/20 bg-background/70 shadow-lg backdrop-blur-lg",
         )}
@@ -80,35 +127,33 @@ export default function PreviewCard({
           </CardDescription>
         </CardHeader>
         <CardContent
-          className="flex flex-col gap-2"
-          onDragOver={(e) => {
-            if (isMobileLayout) return;
-            e.preventDefault();
-            setIsDragging(true);
-          }}
-          onDragLeave={() => !isMobileLayout && setIsDragging(false)}
+          className="flex flex-col gap-2 flex-1"
+          onDragEnter={onDragEnter}
+          onDragOver={(e) => e.preventDefault()}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
         >
           {items.length === 0 ? (
             <EmptyPreviewList
               layout={layout}
               isDragging={isDragging}
-              onDrop={onDrop}
             />
           ) : (
             <PreviewList
               isDragging={isDragging}
-              onDrop={onDrop}
               layout={layout}
               removeItem={removeItem}
             />
           )}
 
-          {isDragging && !isMobileLayout && (
+          {isDragging && !isMobileLayout && items.length > 0 && (
             <div
               className="flex h-64 flex-col items-center justify-center rounded-lg border border-dashed text-slate-400 border-red-500 bg-red-500/10"
               onDrop={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 setIsDragging(false);
+                dragCounter.current = 0;
               }}
             >
               <Trash2 />
