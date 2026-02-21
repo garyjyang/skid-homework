@@ -20,6 +20,7 @@ If this tool saved your time, please give us a star or share this tool to your f
 - Customizable answer styles, not limited to standard answers
 - Can access from your computer, tablet or mobile phone
 - Ergonomics, keyboard workflow support
+- ADB Screenshot support (**EXPERIMENT**)
 
 ## Try it
 
