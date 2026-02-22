@@ -35,7 +35,7 @@ export class OpenAiClient extends BaseAiClient {
     media: string,
     mimeType: string,
     prompt?: string,
-    model = "gpt-4o",
+    model = "gpt-5.3",
     callback?: (text: string) => void,
   ) {
     const messages: ChatCompletionMessageParam[] = [];
@@ -110,7 +110,7 @@ export class OpenAiClient extends BaseAiClient {
    */
   async sendChat(
     messages: AiChatMessage[],
-    model = "gpt-4o-mini",
+    model = "gpt-5.2",
     callback?: (text: string) => void,
   ) {
     const openAiMessages: ChatCompletionMessageParam[] = [];
