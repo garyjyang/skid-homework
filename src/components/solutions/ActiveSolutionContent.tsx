@@ -71,8 +71,8 @@ const TextSolutionPreview = ({
     <Collapsible defaultOpen>
       <div className="flex items-center justify-between mb-2">
         <div className="text-xs text-slate-400">
-          {t("photo-label", {
-            index: item.displayName,
+          {t("file-label", {
+            fileName: item.displayName,
             source: tCommon(`sources.${item.source}`),
           })}
         </div>
@@ -86,8 +86,8 @@ const TextSolutionPreview = ({
             <DialogContent className="flex h-[80vh] max-w-4xl flex-col">
               <DialogHeader>
                 <DialogTitle>
-                  {t("photo-label", {
-                    index: item.displayName,
+                  {t("file-label", {
+                    fileName: item.displayName,
                     source: tCommon(`sources.${item.source}`),
                   })}
                 </DialogTitle>
@@ -252,8 +252,8 @@ export default function ActiveSolutionContent({
         <Collapsible defaultOpen>
           <div className="flex items-center justify-between mb-2">
             <div className="text-xs text-slate-400">
-              {t("photo-label", {
-                index: entry.item.displayName,
+              {t("file-label", {
+                fileName: entry.item.displayName,
                 source: entry.item.source,
               })}
             </div>

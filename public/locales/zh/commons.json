@@ -183,7 +183,7 @@
     "tabs": {
       "fallback": "文件 {{index}}"
     },
-    "photo-label": "文件 {{index}} • {{source}}",
+    "file-label": "文件 {{fileName}} • {{source}}",
     "toggle-preview": "切换预览",
     "streaming": {
       "title": "AI 输出",

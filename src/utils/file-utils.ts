@@ -1,10 +1,13 @@
 export function generateTextFilename(content: string): string {
   const now = new Date();
   const timeString = now.toTimeString().split(" ")[0].replace(/:/g, ""); // HHmmss
-  const preview = content
-    .trim()
-    .slice(0, 10)
-    .replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, "_");
+  let preview = content
+      .trim()
+      .slice(0, 10)
+      .replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, "_");
+  if (!preview) {
+    preview = "content";
+  }
   return `text_${timeString}_${preview}.txt`;
 }
 

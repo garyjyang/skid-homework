@@ -129,7 +129,11 @@ export default function PreviewCard({
         <CardContent
           className={cn("flex flex-col gap-2 flex-1", isMobileLayout && "min-h-[20rem]")}
           onDragEnter={onDragEnter}
-          onDragOver={(e) => e.preventDefault()}
+          onDragOver={(e) => {
+            if (isMobileLayout) return;
+            e.preventDefault();
+            setIsDragging(true);
+          }}
           onDragLeave={onDragLeave}
           onDrop={onDrop}
         >
@@ -146,7 +150,7 @@ export default function PreviewCard({
             />
           )}
 
-          {isDragging && !isMobileLayout && items.length > 0 && (
+          {isDragging && !isMobileLayout && (
             <div
               className="flex h-64 flex-col items-center justify-center rounded-lg border border-dashed text-slate-400 border-red-500 bg-red-500/10"
               onDrop={(e) => {

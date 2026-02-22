@@ -575,10 +575,10 @@ interface Resources {
           "title": "Markdown 已下载"
         }
       },
+      "file-label": "文件 {{fileName}} • {{source}}",
       "focus-region-aria": "解决方案键盘聚焦区域（Tab/Shift+Tab 切换题目，空格/Shift+空格切换文件）",
       "gesture-hint": "左右滑动切换题目。",
       "idle": "点击\"开始打滑\"将文件发送给AI以在这里查看结果",
-      "photo-label": "文件 {{index}} • {{source}}",
       "status": {
         "failed": "处理失败，请重试。",
         "pending": "正在处理中...",
