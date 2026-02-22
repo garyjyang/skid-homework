@@ -202,9 +202,14 @@ export default function UploadArea({ appendFiles, allowPdf }: UploadAreaProps) {
     [handleAdbBtnClicked],
   );
 
+  const textInputShortcut = useShortcut("textInput", () => {
+    if (isWorking || adbBusy) return;
+    setTextInputOpen(true);
+  }, [isWorking, adbBusy]);
+
   const fileAccept = allowPdf
-    ? "image/*,application/pdf,text/*,.md,.json"
-    : "image/*,text/*,.md,.json";
+    ? "image/*,application/pdf,text/*,.txt,.md,.json"
+    : "image/*,text/*,.txt,.md,.json";
 
   return (
     <>
@@ -248,7 +253,7 @@ export default function UploadArea({ appendFiles, allowPdf }: UploadAreaProps) {
           {!isCompact && <ShortcutHint shortcut={uploadShortcut} />}
         </Button>
       </div>
-      <div className={cn("flex gap-2", isCompact && "flex-col")}>
+      <div className={cn("flex gap-2 w-full", isCompact && "flex-col")}>
         <input
           ref={cameraInputRef}
           disabled={isWorking || adbBusy}
@@ -266,16 +271,16 @@ export default function UploadArea({ appendFiles, allowPdf }: UploadAreaProps) {
           ref={cameraBtnRef}
           variant="secondary"
           className={cn(
-            "flex-1 items-center justify-between",
+            "flex-1 items-center justify-between min-w-0 flex-shrink",
             isCompact && "py-6 text-base font-medium",
           )}
           size={isCompact ? "lg" : "default"}
           disabled={isWorking || adbBusy}
           onClick={handleCameraBtnClicked}
         >
-          <span className="flex items-center gap-2">
-            <Camera className="h-5 w-5" />
-            {t("take-photo")}
+          <span className="flex items-center gap-2 min-w-0 overflow-hidden">
+            <Camera className="h-5 w-5 flex-shrink-0" />
+            <span className="truncate">{t("take-photo")}</span>
           </span>
           {!isCompact && <ShortcutHint shortcut={cameraShortcut} />}
         </Button>
@@ -291,16 +296,18 @@ export default function UploadArea({ appendFiles, allowPdf }: UploadAreaProps) {
             <Button
               variant="secondary"
               className={cn(
-                "flex-1 items-center justify-between",
-                isCompact && "py-6 text-base font-medium",
+                "flex-1 items-center justify-between min-w-0 flex-shrink",
+                isCompact && "py-6 text-base font-medium mt-2",
               )}
               size={isCompact ? "lg" : "default"}
               disabled={isWorking}
+              onClick={() => setTextInputOpen(true)}
             >
-              <span className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                {t("text-input.button")}
+              <span className="flex items-center gap-2 min-w-0 overflow-hidden">
+                <FileText className="h-5 w-5 flex-shrink-0" />
+                <span className="truncate">{t("text-input.button")}</span>
               </span>
+              {!isCompact && <ShortcutHint shortcut={textInputShortcut} />}
             </Button>
           }
         />

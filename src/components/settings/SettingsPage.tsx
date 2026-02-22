@@ -236,6 +236,11 @@ export default function SettingsPage() {
         label: translateSettings("shortcuts.actions.camera.label"),
         description: translateSettings("shortcuts.actions.camera.description"),
       },
+      {
+        action: "textInput" as ShortcutAction,
+        label: translateSettings("shortcuts.actions.text-input.label", { defaultValue: "Text Input" }),
+        description: translateSettings("shortcuts.actions.text-input.description", { defaultValue: "Open text input dialog" }),
+      },
       !isCompact && {
         action: "adbScreenshot" as ShortcutAction,
         label: translateSettings("shortcuts.actions.adb-screenshot.label"),

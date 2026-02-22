@@ -218,11 +218,11 @@
     }
   },
   "upload-area": {
-    "take-photo": "Take Photo",
+    "take-photo": "Camera",
     "upload": "Upload Files",
     "upload-tip": "Images and text files are supported. PDFs require an active Gemini source.",
     "text-input": {
-      "button": "Text Input",
+      "button": "Text",
       "title": "Input Problem Text",
       "description": "Paste or type the problem content directly.",
       "placeholder": "Enter problem here...",
@@ -368,6 +368,10 @@
         "camera": {
           "label": "Take photo",
           "description": "Launches the device camera to capture homework."
+        },
+        "text-input": {
+          "label": "Text Input",
+          "description": "Open text input dialog."
         },
         "adb-screenshot": {
           "label": "ADB screenshot",

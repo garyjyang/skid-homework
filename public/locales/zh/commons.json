@@ -222,7 +222,7 @@
     "upload": "上传文件",
     "upload-tip": "支持图片和文本；PDF 需要启用 Gemini 源。",
     "text-input": {
-      "button": "文本输入",
+      "button": "文本",
       "title": "输入题目文本",
       "description": "直接粘贴或输入题目内容。",
       "placeholder": "在此输入题目...",
@@ -368,6 +368,10 @@
         "camera": {
           "label": "拍照",
           "description": "调用设备相机拍摄作业。"
+        },
+        "text-input": {
+          "label": "文本输入",
+          "description": "打开文本输入对话框。"
         },
         "adb-screenshot": {
           "label": "ADB 截图",

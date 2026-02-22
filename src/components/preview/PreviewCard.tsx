@@ -127,7 +127,7 @@ export default function PreviewCard({
           </CardDescription>
         </CardHeader>
         <CardContent
-          className="flex flex-col gap-2 flex-1"
+          className={cn("flex flex-col gap-2 flex-1", isMobileLayout && "min-h-[20rem]")}
           onDragEnter={onDragEnter}
           onDragOver={(e) => e.preventDefault()}
           onDragLeave={onDragLeave}

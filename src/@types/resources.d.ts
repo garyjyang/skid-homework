@@ -193,8 +193,8 @@ interface Resources {
       "image-alt": "作业预览",
       "no-files": "没有文件 上传或拍照以开始",
       "remove": {
-        "aria": "移除图片",
-        "menu-item": "移除图片"
+        "aria": "移除文件",
+        "menu-item": "移除文件"
       },
       "rename": {
         "dialog": {
@@ -206,7 +206,7 @@ interface Resources {
         "menu-item": "重命名"
       },
       "supported-types": "支持图片、文本、Markdown、JSON 等格式",
-      "tip": "提示：双击以在解决方案区域聚焦图像，单击图片预览大图",
+      "tip": "提示：双击以在解决方案区域聚焦文件，单击文件全屏预览",
       "title": "预览"
     },
     "problem-list": {
@@ -240,7 +240,7 @@ interface Resources {
       },
       "loading": "加载中...",
       "mobile": {
-        "empty": "先添加照片或 PDF 开始使用。",
+        "empty": "先添加文件或 PDF 开始使用。",
         "hint-pdf": "启用 Gemini 源即可支持 PDF 上传。",
         "hint-ready": "可以开始识别了，准备好后点击「开始打滑」。",
         "status": "已有 {{count}} 个文件",
@@ -254,7 +254,7 @@ interface Resources {
       "title": "扫描你的作业",
       "toasts": {
         "all-processed": {
-          "description": "没有待处理或失败的图片了。",
+          "description": "没有待处理或失败的文件了。",
           "title": "全部已处理"
         },
         "done": {
@@ -416,8 +416,12 @@ interface Resources {
             "description": "将所有待处理的文件发送给 AI 源。",
             "label": "开始识别"
           },
+          "text-input": {
+            "description": "打开文本输入对话框。",
+            "label": "文本输入"
+          },
           "upload": {
-            "description": "打开文件选择器，挑选图片或 PDF。",
+            "description": "打开文件选择器，挑选文件或 PDF。",
             "label": "上传文件"
           }
         },
@@ -543,7 +547,7 @@ interface Resources {
       "source-image": "原始文件："
     },
     "solutions": {
-      "analyzing": "正在分析... 正在从你的图片中提取问题和解决方案",
+      "analyzing": "正在分析... 正在从你的文件中提取问题和解决方案",
       "export": {
         "answer-label": "答案",
         "button": "导出为 Markdown",
@@ -571,15 +575,15 @@ interface Resources {
           "title": "Markdown 已下载"
         }
       },
-      "focus-region-aria": "解决方案键盘聚焦区域（Tab/Shift+Tab 切换题目，空格/Shift+空格切换图片）",
+      "focus-region-aria": "解决方案键盘聚焦区域（Tab/Shift+Tab 切换题目，空格/Shift+空格切换文件）",
       "gesture-hint": "左右滑动切换题目。",
-      "idle": "点击\"开始打滑\"将图片发送给AI以在这里查看结果",
+      "idle": "点击\"开始打滑\"将文件发送给AI以在这里查看结果",
       "photo-label": "文件 {{index}} • {{source}}",
       "status": {
         "failed": "处理失败，请重试。",
         "pending": "正在处理中...",
         "stream": "正在推理...",
-        "success": "这张图片没有检测到题目。",
+        "success": "该文件没有检测到题目。",
         "success-with-provider": "由 {{provider}} 处理成功。"
       },
       "streaming": {
@@ -618,7 +622,7 @@ interface Resources {
       "pdf-disabled": "仅在启用 Gemini 源时支持 PDF 上传。",
       "take-photo": "拍照",
       "text-input": {
-        "button": "文本输入",
+        "button": "文本",
         "description": "直接粘贴或输入题目内容。",
         "placeholder": "在此输入题目...",
         "submit": "确认",
@@ -629,7 +633,7 @@ interface Resources {
         "webusb-not-supported": "该浏览器不支持 WebUSB。"
       },
       "upload": "上传文件",
-      "upload-tip": "支持图片；PDF 需要启用 Gemini 源。"
+      "upload-tip": "支持图片和文本；PDF 需要启用 Gemini 源。"
     },
     "uploads-info": {
       "selected": "已选择"
