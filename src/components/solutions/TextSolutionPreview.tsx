@@ -5,20 +5,20 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Maximize2} from "lucide-react";
+import type {TFunction} from "i18next";
+
+export interface TextSolutionPreviewProps {
+  item: FileItem;
+  t: TFunction<"commons", "solutions">;
+  tCommon: TFunction<"commons">;
+}
 
 export const TextSolutionPreview = ({
                                       item,
                                       t,
                                       tCommon,
-                                    }: {
-  item: FileItem;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  t: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  tCommon: any;
-}) => {
+                                    }: TextSolutionPreviewProps) => {
   const [content, setContent] = useState<string>("");
-
   useEffect(() => {
     let ignore = false;
     readTextFile(item.url)

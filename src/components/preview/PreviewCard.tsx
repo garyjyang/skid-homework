@@ -1,19 +1,13 @@
 import "react-photo-view/dist/react-photo-view.css";
-import { Trash2 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import type { FileItem } from "@/store/problems-store";
-import { useCallback, useState, useRef, type ClipboardEvent } from "react";
-import { cn } from "@/lib/utils";
-import { useTranslation } from "react-i18next";
+import {Trash2} from "lucide-react";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "../ui/card";
+import type {FileItem} from "@/store/problems-store";
+import {type ClipboardEvent, useCallback, useRef, useState} from "react";
+import {cn} from "@/lib/utils";
+import {useTranslation} from "react-i18next";
 import EmptyPreviewList from "./EmptyPreviewList";
 import PreviewList from "./PreviewList";
-import { generateTextFilename } from "@/utils/file-utils";
+import {generateTextFilename} from "@/utils/file-utils";
 
 export type PreviewCardProps = {
   items: FileItem[];
@@ -33,7 +27,6 @@ export default function PreviewCard({
   const [isDragging, setIsDragging] = useState(false);
   const dragCounter = useRef(0);
   // use drag counter to handle drag enter and leave events correctly when dragging over child elements
-  //
   const isMobileLayout = layout === "mobile";
 
   const onDragEnter = useCallback(

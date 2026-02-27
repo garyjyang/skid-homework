@@ -1,24 +1,26 @@
-import { ChevronsUp } from "lucide-react";
+import {ChevronsUp} from "lucide-react";
 import {
+  BundledLanguage,
   CodeBlock,
   CodeBlockBody,
-  CodeBlockItem,
   CodeBlockContent,
-  BundledLanguage,
   CodeBlockCopyButton,
   CodeBlockFilename,
   CodeBlockFiles,
   CodeBlockHeader,
+  CodeBlockItem,
 } from "../ui/shadcn-io/code-block";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import {useState} from "react";
+import {cn} from "@/lib/utils";
 
 export type CodeRendererProps = {
   language: string;
   content: string;
+  filename?: string;
+  className?: string;
 };
 
-export default function CodeRenderer({ language, content }: CodeRendererProps) {
+export default function CodeRenderer({ language, content, filename = "Scratch", className }: CodeRendererProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -26,11 +28,12 @@ export default function CodeRenderer({ language, content }: CodeRendererProps) {
       data={[
         {
           language: language,
-          filename: "Scratch",
+          filename: filename,
           code: content,
         },
       ]}
       defaultValue={language}
+      className={cn("flex flex-col h-full", className)}
     >
       <CodeBlockHeader>
         <CodeBlockFiles>
@@ -62,7 +65,7 @@ export default function CodeRenderer({ language, content }: CodeRendererProps) {
         />
       </CodeBlockHeader>
 
-      <CodeBlockBody>
+      <CodeBlockBody className="flex-1 overflow-auto bg-background">
         {(item) => (
           <CodeBlockItem key={item.language} value={item.language}>
             <CodeBlockContent language={item.language as BundledLanguage}>
