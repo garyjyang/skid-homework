@@ -67,12 +67,10 @@ export default function ActionsArea({
   );
 
   return (
-    <div
-      className={cn("flex gap-2 flex-wrap", isMobileLayout && "flex-col gap-3")}
-    >
+    <div className={cn("flex gap-2 flex-col", isMobileLayout && "gap-3")}>
       <GlobalTraitsEditor
         className={cn(
-          "flex-1 items-center justify-center",
+          "w-full items-center justify-center",
           isMobileLayout && "py-6 text-base",
         )}
       />
@@ -81,7 +79,7 @@ export default function ActionsArea({
         ref={clearAllBtnRef}
         variant="destructive"
         className={cn(
-          "flex-1 items-center justify-center",
+          "w-full items-center justify-center",
           isMobileLayout && "py-6 text-base",
         )}
         size={isMobileLayout ? "lg" : "default"}
@@ -97,7 +95,7 @@ export default function ActionsArea({
       <Button
         ref={skidBtnRef}
         className={cn(
-          "flex-1 items-center justify-center gap-2",
+          "w-full items-center justify-center gap-2",
           isMobileLayout && "py-6 text-base",
         )}
         size={isMobileLayout ? "lg" : "default"}

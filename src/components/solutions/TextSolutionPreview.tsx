@@ -1,11 +1,12 @@
-import type {FileItem} from "@/store/problems-store.ts";
-import {useEffect, useState} from "react";
-import {readTextFile} from "@/utils/file-utils.ts";
-import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible.tsx";
-import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog.tsx";
-import {Button} from "@/components/ui/button.tsx";
-import {Maximize2} from "lucide-react";
-import type {TFunction} from "i18next";
+import type { FileItem } from "@/store/problems-store.ts";
+import { useEffect, useState } from "react";
+import { readTextFile } from "@/utils/file-utils.ts";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible.tsx";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Maximize2 } from "lucide-react";
+import type { TFunction } from "i18next";
+import CodeRenderer from "@/components/markdown/CodeRenderer.tsx";
 
 export interface TextSolutionPreviewProps {
   item: FileItem;
@@ -14,10 +15,10 @@ export interface TextSolutionPreviewProps {
 }
 
 export const TextSolutionPreview = ({
-                                      item,
-                                      t,
-                                      tCommon,
-                                    }: TextSolutionPreviewProps) => {
+  item,
+  t,
+  tCommon,
+}: TextSolutionPreviewProps) => {
   const [content, setContent] = useState<string>("");
   useEffect(() => {
     let ignore = false;
@@ -39,6 +40,8 @@ export const TextSolutionPreview = ({
     };
   }, [item.url]);
 
+  const language = item.displayName.split(".").pop() || "txt";
+
   return (
     <Collapsible defaultOpen>
       <div className="flex items-center justify-between mb-2">
@@ -52,11 +55,14 @@ export const TextSolutionPreview = ({
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="ghost" size="icon" className="h-7 w-7">
-                <Maximize2 className="h-4 w-4"/>
+                <Maximize2 className="h-4 w-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent className="flex h-[80vh] max-w-4xl flex-col">
-              <DialogHeader>
+            <DialogContent
+              className="flex h-[85vh] w-[75vw] max-w-[75vw] sm:max-w-[75vw] flex-col bg-slate-950 p-6 pt-12"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <DialogHeader className="sr-only">
                 <DialogTitle>
                   {t("file-label", {
                     fileName: item.displayName,
@@ -64,9 +70,13 @@ export const TextSolutionPreview = ({
                   })}
                 </DialogTitle>
               </DialogHeader>
-              <div
-                className="flex-1 overflow-auto rounded-md bg-slate-950 p-4 font-mono text-sm text-slate-300 whitespace-pre-wrap">
-                {content}
+              <div className="flex-1 overflow-hidden rounded-md text-left text-sm">
+                <CodeRenderer
+                  language={language}
+                  content={content}
+                  filename={item.displayName}
+                  className="h-full"
+                />
               </div>
             </DialogContent>
           </Dialog>
@@ -78,9 +88,13 @@ export const TextSolutionPreview = ({
         </div>
       </div>
       <CollapsibleContent>
-        <div
-          className="max-h-96 overflow-hidden overflow-y-auto rounded-xl border border-slate-700 bg-slate-950 p-4 text-xs font-mono text-slate-300 whitespace-pre-wrap break-all">
-          {content}
+        <div className="max-h-96 overflow-hidden rounded-xl border border-slate-700 bg-slate-950 text-left text-sm">
+          <CodeRenderer
+            language={language}
+            content={content}
+            filename={item.displayName}
+            className="h-full max-h-96"
+          />
         </div>
       </CollapsibleContent>
     </Collapsible>
