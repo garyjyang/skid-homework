@@ -65,6 +65,7 @@ export default function AIAPICredentialsManager({
     activeSource?.baseUrl ??
       (activeSource ? DEFAULT_BASE_BY_PROVIDER[activeSource.provider] : ""),
   );
+  const [isCustomWebSearch, setIsCustomWebSearch] = useState(false);
 
   const updateSource = useAiStore((s) => s.updateSource);
 
@@ -262,24 +263,29 @@ export default function AIAPICredentialsManager({
                   </Label>
                   <Select
                     value={
-                      activeSource.webSearchToolType === undefined
-                        ? "auto"
-                        : ["web_search", "web_search_preview"].includes(
-                              activeSource.webSearchToolType,
-                            )
-                          ? activeSource.webSearchToolType
-                          : "custom"
+                      isCustomWebSearch ||
+                      (activeSource.webSearchToolType !== undefined &&
+                        !["web_search", "web_search_preview"].includes(
+                          activeSource.webSearchToolType,
+                        ))
+                        ? "custom"
+                        : activeSource.webSearchToolType === undefined
+                          ? "auto"
+                          : activeSource.webSearchToolType
                     }
                     onValueChange={(val) => {
                       if (val === "auto") {
+                        setIsCustomWebSearch(false);
                         updateSource(activeSource.id, {
                           webSearchToolType: undefined,
                         });
                       } else if (val === "custom") {
+                        setIsCustomWebSearch(true);
                         updateSource(activeSource.id, {
-                          webSearchToolType: "",
+                          webSearchToolType: undefined,
                         });
                       } else {
+                        setIsCustomWebSearch(false);
                         updateSource(activeSource.id, {
                           webSearchToolType: val,
                         });
@@ -312,22 +318,29 @@ export default function AIAPICredentialsManager({
                       </SelectItem>
                     </SelectContent>
                   </Select>
-                  {activeSource.webSearchToolType !== undefined &&
-                    !["web_search", "web_search_preview"].includes(
-                      activeSource.webSearchToolType,
-                    ) && (
-                      <Input
-                        placeholder={t(
-                          "api-credentials.advanced.web-search-tool.custom-placeholder",
-                        )}
-                        value={activeSource.webSearchToolType}
-                        onChange={(e) => {
-                          updateSource(activeSource.id, {
-                            webSearchToolType: e.target.value,
-                          });
-                        }}
-                      />
-                    )}
+                  {(isCustomWebSearch ||
+                    (activeSource.webSearchToolType !== undefined &&
+                      !["web_search", "web_search_preview"].includes(
+                        activeSource.webSearchToolType,
+                      ))) && (
+                    <Input
+                      placeholder={t(
+                        "api-credentials.advanced.web-search-tool.custom-placeholder",
+                      )}
+                      value={activeSource.webSearchToolType || ""}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        updateSource(activeSource.id, {
+                          webSearchToolType: val || undefined,
+                        });
+                        if (val) {
+                          setIsCustomWebSearch(false);
+                        } else {
+                          setIsCustomWebSearch(true);
+                        }
+                      }}
+                    />
+                  )}
                   <p className="text-xs text-muted-foreground">
                     {t("api-credentials.advanced.web-search-tool.tip")}
                   </p>

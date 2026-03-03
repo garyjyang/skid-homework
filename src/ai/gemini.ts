@@ -87,7 +87,9 @@ export class GeminiAi extends BaseAiClient {
   ): string {
     if (!groundingChunks.length) return existingText;
     const hasOnlineSearchSection = existingText.includes("### ONLINE_SEARCH");
-    const hasIndexedList = /### ONLINE_SEARCH[\s\S]*#\d+\s-/.test(existingText);
+    const hasIndexedList = /### ONLINE_SEARCH[\s\S]*\\?#\d+\s-/.test(
+      existingText,
+    );
     if (hasOnlineSearchSection && hasIndexedList) {
       return existingText;
     }

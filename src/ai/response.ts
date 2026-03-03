@@ -149,11 +149,9 @@ export function parseSolveResponse(response: string): SolveResponse {
       : undefined;
 
     if (problemText || explanation || answer || hasOnlineSearch) {
-      const finalExplanation =
-        explanation || (hasOnlineSearch ? "See search results below." : "");
+      const finalExplanation = explanation || "";
       problems.push({
-        problem:
-          problemText || (hasOnlineSearch ? "Online Search Results" : ""),
+        problem: problemText || "",
         explanation: finalExplanation,
         answer: answer || "",
         // Parse steps specifically from the explanation text

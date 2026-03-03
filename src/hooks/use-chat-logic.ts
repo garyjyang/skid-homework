@@ -7,9 +7,10 @@ import { useTranslation } from "react-i18next";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { decodeSeedChat, type SeedChatState } from "@/lib/chat-seed";
-import { useAiStore, type AiSource } from "@/store/ai-store";
+import { type AiSource, useAiStore } from "@/store/ai-store";
 import { useChatStore } from "@/store/chat-store";
 import type { AiChatMessage } from "@/ai/chat-types";
+import { isNonRetryableError } from "@/ai/errors";
 
 import chatPrompt from "@/ai/prompts/chat.prompt.md";
 import { getEnabledToolCallingPrompts } from "@/ai/prompts/prompt-manager";
@@ -339,7 +340,10 @@ export function useChatLogic() {
       }
     } catch (error) {
       console.error(error);
-      toast.error(t("errors.send-failed"));
+      // NonRetryableError already displays a specific toast in the AI client
+      if (!isNonRetryableError(error)) {
+        toast.error(t("errors.send-failed"));
+      }
       if (chatId && assistantMessageId) {
         await updateMessage(chatId, assistantMessageId, {
           error: true,
