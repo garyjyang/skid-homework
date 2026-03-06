@@ -1,7 +1,7 @@
-import {FileItem} from "@/store/problems-store";
-import {useEffect, useState} from "react";
-import {readTextFile} from "@/utils/file-utils";
-import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,} from "../ui/dialog";
+import { FileItem } from "@/store/problems-store";
+import { useEffect, useState } from "react";
+import { readTextFile } from "@/utils/file-utils";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from "../ui/dialog";
 import CodeRenderer from "@/components/markdown/CodeRenderer";
 
 export interface TextFilePreviewProps {
@@ -32,7 +32,7 @@ export const TextFilePreview = ({ item }: TextFilePreviewProps) => {
           {content.slice(0, 300)}
         </div>
       </DialogTrigger>
-      <DialogContent className="flex h-[85vh] w-[75vw] max-w-[75vw] sm:max-w-[75vw] flex-col bg-slate-950 p-6 pt-12" onClick={(e) => e.stopPropagation()}>
+      <DialogContent className="flex h-[85vh] w-[75vw] max-w-[75vw] sm:max-w-[75vw] flex-col p-6 pt-12" onClick={(e) => e.stopPropagation()}>
         <DialogHeader className="sr-only">
           <DialogTitle>{item.displayName}</DialogTitle>
         </DialogHeader>

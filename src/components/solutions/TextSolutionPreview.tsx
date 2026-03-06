@@ -59,7 +59,7 @@ export const TextSolutionPreview = ({
               </Button>
             </DialogTrigger>
             <DialogContent
-              className="flex h-[85vh] w-[75vw] max-w-[75vw] sm:max-w-[75vw] flex-col bg-slate-950 p-6 pt-12"
+              className="flex h-[85vh] w-[75vw] max-w-[75vw] sm:max-w-[75vw] flex-col p-6 pt-12"
               onClick={(e) => e.stopPropagation()}
             >
               <DialogHeader className="sr-only">
@@ -88,7 +88,7 @@ export const TextSolutionPreview = ({
         </div>
       </div>
       <CollapsibleContent>
-        <div className="max-h-96 overflow-hidden rounded-xl border border-slate-700 bg-slate-950 text-left text-sm">
+        <div className="max-h-96 overflow-hidden rounded-xl border border-slate-700 text-left text-sm">
           <CodeRenderer
             language={language}
             content={content}
