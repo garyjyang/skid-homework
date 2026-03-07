@@ -47,6 +47,7 @@ import AIAPICredentialsManager from "./AIAPICredentialsManager";
 import AISourceManager from "./AISourceManager";
 import ExplanationModeSelector from "./ExplanationModeSelector";
 import ModelSelector, { CUSTOM_MODEL_VALUE } from "../ui/ModelSelector";
+import { RefreshCw } from "lucide-react";
 
 export const DEFAULT_BASE_BY_PROVIDER: Record<AiProvider, string> = {
   gemini: DEFAULT_GEMINI_BASE_URL,
@@ -157,7 +158,11 @@ export default function SettingsPage() {
   const router = useRouter();
 
   // Use shared hook for available models
-  const { sourceModelsMap } = useAvailableModels();
+  const {
+    sourceModelsMap,
+    isLoading: modelsLoading,
+    forceRefetch,
+  } = useAvailableModels();
 
   const handleBack = useCallback(() => {
     if (navTargetPath) {
@@ -452,6 +457,17 @@ export default function SettingsPage() {
                 isCustomSelected={isCustomModel}
                 className="flex-2"
               />
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => void forceRefetch()}
+                disabled={modelsLoading}
+                title={t("model.refresh")}
+              >
+                <RefreshCw
+                  className={`h-4 w-4 ${modelsLoading ? "animate-spin" : ""}`}
+                />
+              </Button>
             </div>
             {isCustomModel && (
               <div className="space-y-2">
