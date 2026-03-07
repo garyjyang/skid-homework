@@ -301,6 +301,10 @@ interface Resources {
           description: "{{source}} 的所有 {{maxRetries}} 次重试均失败，正在切换到下一个提供商...";
           title: "重试次数已用尽";
         };
+        fallback: {
+          description: "主模型请求失败，正在使用回落模型 {{model}} 重试...";
+          title: "正在切换到回落模型";
+        };
         "unsupported-file": {
           description: "您的文件MIME 类型为 {{mimeType}}, 当前不被 SkidHomework 支持";
           title: "不支持的文件类型";
@@ -397,12 +401,19 @@ interface Resources {
       heading: "SkidHomework 设置";
       model: {
         desc: "选择或手动填写请求所使用的模型。";
+        fallback: {
+          desc: "当主模型请求失败时，自动切换到此模型重试";
+          label: "当选择的模型不可用时，回落到";
+          none: "无";
+        };
         fetch: {
           error: "获取 {{provider}} 的模型列表失败，请检查 API 密钥或基地址。";
         };
         manual: {
+          apply: "应用";
           desc: "如果列表中没有想要的模型，可手动填写名称。";
           placeholder: "模型标识符";
+          "select-provider": "选择提供商";
           title: "自定义模型";
         };
         "max-retries": {

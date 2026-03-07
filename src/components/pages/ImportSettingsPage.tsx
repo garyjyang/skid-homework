@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, AlertCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Trans, useTranslation } from "react-i18next";
 
 // UI Components (Adjust import paths based on your project structure)
@@ -49,7 +49,7 @@ export default function ImportSettingsPage() {
 
   const sourceId = useRef<null | string>(null);
 
-  const { addSource, removeSource } = useAiStore((s) => s);
+  const { addSource, removeSource, setCurrentModel } = useAiStore((s) => s);
 
   useEffect(() => {
     // 1. Get the hash from the URL
@@ -79,11 +79,15 @@ export default function ImportSettingsPage() {
     const newSourceId = addSource({
       apiKey: modelJson.key ?? null,
       name: modelJson.name,
-      model: modelJson.model,
       provider: modelJson.provider.toLowerCase() as AiProvider,
       baseUrl: modelJson.baseUrl,
       enabled: true,
     });
+
+    // If the imported config has a model, set it as the current model
+    if (modelJson.model) {
+      setCurrentModel(modelJson.model);
+    }
 
     sourceId.current = newSourceId;
 

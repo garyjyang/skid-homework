@@ -112,7 +112,11 @@
       },
       "retry-exhausted": {
         "title": "Retries exhausted",
-        "description": "All {{maxRetries}} retries for {{source}} failed. Switching to next provider..."
+        "description": "All {{maxRetries}} retries for {{source}} failed."
+      },
+      "fallback": {
+        "title": "Switching to fallback model",
+        "description": "Primary model failed, retrying with fallback model {{model}}..."
       }
     },
     "errors": {
@@ -442,7 +446,9 @@
       "refresh": "Refresh models",
       "manual": {
         "title": "Custom model",
+        "select-provider": "Select provider",
         "placeholder": "Model identifier",
+        "apply": "Apply",
         "desc": "Enter a model name manually if it is not listed."
       },
       "fetch": {
@@ -451,6 +457,11 @@
       "max-retries": {
         "label": "Max retries",
         "tip": "Maximum number of automatic retries when API calls fail (0-10). Set to 0 to disable retries."
+      },
+      "fallback": {
+        "label": "When selected model is unavailable, fall back to",
+        "desc": "Automatically switch to this model when the primary model fails",
+        "none": "None"
       }
     },
     "thinking": {
@@ -459,7 +470,7 @@
       "budget": "Thinking budget",
       "tokens-unit": "tokens",
       "online-search": {
-        "title": "Online search",
+        "title": "Online Search Settings",
         "toggle": {
           "settings": "Online search",
           "disabled": "Enable online search",

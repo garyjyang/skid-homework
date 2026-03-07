@@ -25,9 +25,7 @@ import {
 import {
   type AiProvider,
   DEFAULT_GEMINI_BASE_URL,
-  DEFAULT_GEMINI_MODEL,
   DEFAULT_OPENAI_BASE_URL,
-  DEFAULT_OPENAI_MODEL,
   useAiStore,
 } from "@/store/ai-store";
 import { useMemo, useState } from "react";
@@ -116,8 +114,6 @@ export default function AddAISourceDialog({
         (provider === "gemini"
           ? DEFAULT_GEMINI_BASE_URL
           : DEFAULT_OPENAI_BASE_URL),
-      model:
-        provider === "gemini" ? DEFAULT_GEMINI_MODEL : DEFAULT_OPENAI_MODEL,
       traits: undefined,
       thinkingBudget: provider === "gemini" ? 8192 : undefined,
       useResponsesApi: provider === "openai" ? useResponsesApi : undefined,
