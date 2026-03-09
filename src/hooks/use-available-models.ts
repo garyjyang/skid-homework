@@ -10,6 +10,12 @@ export interface SourceModels {
   models: AiModelSummary[];
 }
 
+// Cache stores only sourceId to avoid leaking API keys
+interface CachedSourceModels {
+  sourceId: string;
+  models: AiModelSummary[];
+}
+
 // Cache configuration
 const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutes
 const CACHE_KEY = "available-models-cache";
@@ -17,7 +23,7 @@ const CACHE_TIMESTAMP_KEY = "available-models-cache-timestamp";
 const CACHE_SOURCES_KEY = "available-models-cache-sources";
 
 interface CachedModels {
-  data: SourceModels[];
+  data: CachedSourceModels[];
   timestamp: number;
   sourcesHash: string;
 }
@@ -40,7 +46,7 @@ function readCache(): CachedModels | null {
     if (!dataStr || !timestampStr || !sourcesHash) return null;
 
     return {
-      data: JSON.parse(dataStr) as SourceModels[],
+      data: JSON.parse(dataStr) as CachedSourceModels[],
       timestamp: parseInt(timestampStr, 10),
       sourcesHash,
     };
@@ -49,8 +55,8 @@ function readCache(): CachedModels | null {
   }
 }
 
-// Write cache to localStorage
-function writeCache(data: SourceModels[], sourcesHash: string): void {
+// Write cache to localStorage (only stores sourceId, not full source object)
+function writeCache(data: CachedSourceModels[], sourcesHash: string): void {
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify(data));
     localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
@@ -69,6 +75,32 @@ function clearCache(): void {
   } catch {
     // Ignore storage errors
   }
+}
+
+// Convert cached data to SourceModels by looking up sources from store
+function hydrateCachedData(
+  cached: CachedSourceModels[],
+  sources: AiSource[]
+): SourceModels[] {
+  const sourceMap = new Map(sources.map((s) => [s.id, s]));
+  const results: SourceModels[] = [];
+
+  for (const { sourceId, models } of cached) {
+    const source = sourceMap.get(sourceId);
+    if (source) {
+      results.push({ source, models });
+    }
+  }
+
+  return results;
+}
+
+// Convert SourceModels to cacheable format (strips sensitive data)
+function toCacheFormat(data: SourceModels[]): CachedSourceModels[] {
+  return data.map(({ source, models }) => ({
+    sourceId: source.id,
+    models,
+  }));
 }
 
 export function useAvailableModels() {
@@ -117,7 +149,7 @@ export function useAvailableModels() {
     }
 
     if (isMountedRef.current) {
-      writeCache(results, sourcesHash);
+      writeCache(toCacheFormat(results), sourcesHash);
       setSourceModelsMap(results);
       setIsLoading(false);
     }
@@ -136,8 +168,8 @@ export function useAvailableModels() {
           const sourcesChanged = cache.sourcesHash !== sourcesHash;
 
           if (!isExpired && !sourcesChanged) {
-            // Use cached data
-            setSourceModelsMap(cache.data);
+            // Use cached data (hydrate with current sources)
+            setSourceModelsMap(hydrateCachedData(cache.data, sources));
             return;
           }
         }
@@ -146,7 +178,7 @@ export function useAvailableModels() {
       // Fetch fresh data
       await forceRefetch();
     },
-    [forceRefetch, sourcesHash]
+    [forceRefetch, sourcesHash, sources]
   );
 
   useEffect(() => {
@@ -173,9 +205,9 @@ export function useAvailableModels() {
         const cacheSourcesChanged = cache.sourcesHash !== sourcesHash;
 
         if (!isExpired && !cacheSourcesChanged) {
-          // Use cached data
+          // Use cached data (hydrate with current sources)
           if (!cancelled) {
-            setSourceModelsMap(cache.data);
+            setSourceModelsMap(hydrateCachedData(cache.data, sources));
           }
           return;
         }
@@ -198,7 +230,7 @@ export function useAvailableModels() {
       }
 
       if (!cancelled) {
-        writeCache(results, sourcesHash);
+        writeCache(toCacheFormat(results), sourcesHash);
         setSourceModelsMap(results);
         setIsLoading(false);
       }
@@ -209,7 +241,7 @@ export function useAvailableModels() {
     return () => {
       cancelled = true;
     };
-  }, [enabledSources, getClientForSource, sourcesHash]);
+  }, [enabledSources, getClientForSource, sourcesHash, sources]);
 
   // Flatten all models for simple list access
   const allModels = useMemo(() => {
